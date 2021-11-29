@@ -1,0 +1,10 @@
+package-as: BetterItemPreview
+
+move-folders:
+    BetterItemPreview/BetterItemPreview: BetterItemPreview
+
+ignore:
+    - README.md
+
+manual-changelog: CHANGELOG.md
+
