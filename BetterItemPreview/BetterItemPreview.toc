@@ -3,5 +3,7 @@
 ## Author: Trelmarq
 ## Version: 1.0.0
 ## OptionalDeps: MogIt
+## SavedVariables: BetterItemPreview
 
+embeds.xml
 core.lua
