@@ -1,5 +1,32 @@
 BIP = LibStub("AceAddon-3.0"):NewAddon("Better Item Preview")
 
+--BIP_EVENTS = CreateFrame("Frame","BIPEVENTS")
+--BIP_EVENTS:RegisterEvent("ADDON_LOADED")
+
+--function BIP_EVENTS:OnEvent(event, ...)
+--    arg1 = ...
+--    if event == "ADDON_LOADED" and arg1 == "Blizzard_InspectUI" then
+--        InspectPaperDollItemSlotButton_OnClick_Backup = InspectPaperDollItemSlotButton_OnClick
+--        InspectPaperDollItemSlotButton_OnClick = function(self,button)
+--            local itemLink = GetInventoryItemLink(InspectFrame.unit, self:GetID());
+--            local itemLocation = ItemLocation:CreateFromEquipmentSlot(self:GetID());
+--            local itemListItem= C_TransmogCollection.GetInspectItemTransmogInfoList()[self:GetID()]
+--            if itemLink and IsModifiedClick("EXPANDITEM") then
+--                local _, _, classID = UnitClass(InspectFrame.unit);
+--                if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) then
+--                    local azeritePowerIDs = C_PaperDollInfo.GetInspectAzeriteItemEmpoweredChoices(InspectFrame.unit, self:GetID());
+--                    OpenAzeriteEmpoweredItemUIFromLink(itemLink, classID, azeritePowerIDs);
+--                    return;
+--                end
+--            end
+--            HandleModifiedItemClick(GetInventoryItemLink(InspectFrame.unit, self:GetID()),itemLocation,itemListItem);
+--        end
+--        self:UnregisterEvent("ADDON_LOADED")
+--    end
+--end
+
+--BIP_EVENTS:SetScript("OnEvent",BIP_EVENTS.OnEvent)
+
 function BIP:OnInitialize()
     local defaults = {
         profile = {
