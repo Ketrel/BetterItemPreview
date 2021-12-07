@@ -19,6 +19,7 @@ function BIP_EVENTS:OnEvent(event, ...)
                     return;
                 end
             end
+            HandleModifiedItemClick(GetInventoryItemLink(InspectFrame.unit, self:GetID()),itemLocation,itemListItem);
         end
         self:UnregisterEvent("ADDON_LOADED")
     end
