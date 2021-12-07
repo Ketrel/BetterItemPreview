@@ -1,5 +1,32 @@
 BIP = LibStub("AceAddon-3.0"):NewAddon("Better Item Preview")
 
+BIP_EVENTS = CreateFrame("Frame","BIPEVENTS")
+BIP_EVENTS = RegisterEvent("ADDON_LOADED")
+
+function BIP_EVENTS:OnEvent(event, ...)
+    arg1 = ...
+    if event == "ADDON_LOADED" and arg1 == "Blizzard_InspectUI" then
+
+    InspectPaperDollItemSlotButton_OnClick_Backup = InspectPaperDollItemSlotButton_OnClick
+    InspectPaperDollItemSlotButton_OnClick = function(self,button)
+        local itemLink = GetInventoryItemLink(InspectFrame.unit, self:GetID());
+        local itemLocation = ItemLocation:CreateFromEquipmentSlot(self:GetID());
+        local itemListItem= C_TransmogCollection.GetInspectItemTransmogInfoList()[self:GetID()]
+        if itemLink and IsModifiedClick("EXPANDITEM") then
+            local _, _, classID = UnitClass(InspectFrame.unit);
+            if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) then
+                local azeritePowerIDs = C_PaperDollInfo.GetInspectAzeriteItemEmpoweredChoices(InspectFrame.unit, self:GetID());
+                OpenAzeriteEmpoweredItemUIFromLink(itemLink, classID, azeritePowerIDs);
+                return;
+            end
+        end
+        self:UnregisterEvent("ADDON_LOADED")
+    end
+end
+
+BIP_EVENTS:SetScript("OnEvent",OnEvent)
+
+
 function BIP:OnInitialize()
     local defaults = {
         profile = {
@@ -44,8 +71,15 @@ function BIP:OnInitialize()
             showReal = true
         end
 
+        if inspect and showReal then
+            inspect = nil
+            itemLocation = nil
+        end
+
         if IsModifiedClick("DRESSUP") and C_Item.IsDressableItemByID(link) then
-            if showReal and itemLocation then
+            if inspect and itemLocation and not showReal then
+                return BIP.DressUpItemLocationReal(itemLocation,inspect) or DressUpItemLink(link) or DressUpBattlePet(link) or DressUpMount(link)
+            elseif showReal and itemLocation then
                 return BIP.DressUpItemLocationReal(itemLocation) or DressUpItemLink(link) or DressUpBattlePet(link) or DressUpMount(link)
             else
                 return DressUpItemLocation(itemLocation) or DressUpItemLink(link) or DressUpBattlePet(link) or DressUpMount(link)
@@ -57,10 +91,16 @@ function BIP:OnInitialize()
 
 end
 
-function BIP:DressUpItemLocationReal(itemLocation)
+function BIP:DressUpItemLocationReal(itemLocation, ...)
+    directAppearance = ...
     if( itemLocation and itemLocation:IsValid() ) then
-        local itemTransmogInfo = C_Item.GetCurrentItemTransmogInfo(itemLocation);
-        itemTransmogInfo:Clear()
+        local itemTransmogInfo
+        if directAppearance then
+            itemTransmogInfo = directAppearance
+        else
+            itemTransmogInfo = C_Item.GetCurrentItemTransmogInfo(itemLocation);
+            itemTransmogInfo:Clear()
+        end
         -- non-equippable items won't have an appearanceID
         if itemTransmogInfo.appearanceID ~= Constants.Transmog.NoTransmogID then
             return DressUpItemTransmogInfo(itemTransmogInfo);
