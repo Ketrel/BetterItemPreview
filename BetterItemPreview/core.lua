@@ -36,9 +36,16 @@ function BIP:OnInitialize()
 
 
     local originalHandleModifiedItemClick = HandleModifiedItemClick
-    HandleModifiedItemClick = function(link, itemLocation)
+    HandleModifiedItemClick = function(link, itemLocation, ...)
+        local showReal = false
+        local inspect = ...
+
+        if (IsShiftKeyDown() and not self.db.profile.reverse) or (not IsShiftKeyDown() and self.db.profile.reverse) then
+            showReal = true
+        end
+
         if IsModifiedClick("DRESSUP") and C_Item.IsDressableItemByID(link) then
-            if (IsShiftKeyDown() and not self.db.profile.reverse) or (not IsShiftKeyDown() and self.db.profile.reverse) and itemLocation then
+            if showReal and itemLocation then
                 return BIP.DressUpItemLocationReal(itemLocation) or DressUpItemLink(link) or DressUpBattlePet(link) or DressUpMount(link)
             else
                 return DressUpItemLocation(itemLocation) or DressUpItemLink(link) or DressUpBattlePet(link) or DressUpMount(link)
