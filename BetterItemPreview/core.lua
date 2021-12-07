@@ -63,9 +63,10 @@ function BIP:OnInitialize()
 
 
     local originalHandleModifiedItemClick = HandleModifiedItemClick
-    HandleModifiedItemClick = function(link, itemLocation, ...)
+    --HandleModifiedItemClick = function(link, itemLocation, ...)
+    HandleModifiedItemClick = function(link, itemLocation)
         local showReal = false
-        local inspect = ...
+        local inspect = nil
 
         if (IsShiftKeyDown() and not self.db.profile.reverse) or (not IsShiftKeyDown() and self.db.profile.reverse) then
             showReal = true
@@ -77,10 +78,10 @@ function BIP:OnInitialize()
             itemLocation = ItemLocation:CreateFromEquipmentSlot(slotID);
         end
 
-        if inspect and showReal then
-            inspect = nil
-            itemLocation = nil
-        end
+--        if inspect and showReal then
+--            inspect = nil
+--            itemLocation = nil
+--        end
 
         if IsModifiedClick("DRESSUP") and C_Item.IsDressableItemByID(link) then
             if inspect and itemLocation and not showReal then
