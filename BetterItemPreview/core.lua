@@ -72,6 +72,11 @@ function BIP:OnInitialize()
             showReal = true
         end
 
+		--I can't figure out what garbage MogIt is sending to this handler, but this appears to take care of that oddity
+		if tonumber(itemLocation) ~= nil then
+			itemLocation = nil
+		end
+
         if(InspectFrame and InspectFrame.unit and not showReal and not itemLocation) then
             local slotID = C_Item.GetItemInventoryTypeByID(link)
             inspect = C_TransmogCollection.GetInspectItemTransmogInfoList()[slotID]
