@@ -1,3 +1,7 @@
+## 2.2.4
+
+Changed from table to calling C_Transmog.GetSlotForInventoryType for picking correct slot
+
 ## 2.2.3
 
 Ok, Bliz, you win this time.
