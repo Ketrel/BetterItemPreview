@@ -78,7 +78,7 @@ function BIP:OnInitialize()
 		end
 
         if(InspectFrame and InspectFrame.unit and not showReal and not itemLocation) then
-            local slotID = C_Item.GetItemInventoryTypeByID(link)
+            local slotID = C_Item.GetItemInventoryTypeByID(link) - 1
             inspect = C_TransmogCollection.GetInspectItemTransmogInfoList()[slotID]
             itemLocation = ItemLocation:CreateFromEquipmentSlot(slotID);
         end
