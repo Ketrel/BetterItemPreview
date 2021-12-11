@@ -1,3 +1,8 @@
+## 2.2.2
+
+Can Blizzard decide on 0 vs 1 indexing PLEASE  
+(Fixed indexing off by 1 issue)
+
 ## 2.2.1
 
 Minor fix for a MogIt quirk
