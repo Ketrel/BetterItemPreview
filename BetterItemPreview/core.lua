@@ -27,6 +27,20 @@ BIP = LibStub("AceAddon-3.0"):NewAddon("Better Item Preview")
 
 --BIP_EVENTS:SetScript("OnEvent",BIP_EVENTS.OnEvent)
 
+BIP.typeSlotRef = {
+    [13] = 16,
+    [14] = 17,
+    [15] = 16,
+    [16] = 15,
+    [17] = 16,
+    [20] = 5,
+    [21] = 16,
+    [22] = 16,
+    [23] = 17,
+    [25] = 16,
+    [26] = 16,
+}
+
 function BIP:OnInitialize()
     local defaults = {
         profile = {
@@ -78,7 +92,9 @@ function BIP:OnInitialize()
 		end
 
         if(InspectFrame and InspectFrame.unit and not showReal and not itemLocation) then
-            local slotID = C_Item.GetItemInventoryTypeByID(link) - 1
+            local slotID = C_Item.GetItemInventoryTypeByID(link)
+            slotID = BIP.typeSlotRef[slotID] or slotID
+
             inspect = C_TransmogCollection.GetInspectItemTransmogInfoList()[slotID]
             itemLocation = ItemLocation:CreateFromEquipmentSlot(slotID);
         end

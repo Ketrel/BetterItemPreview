@@ -1,3 +1,9 @@
+## 2.2.3
+
+Ok, Bliz, you win this time.
+It wasn't an off by one error. 
+This should handle various slots for inspected gear
+
 ## 2.2.2
 
 Can Blizzard decide on 0 vs 1 indexing PLEASE  
