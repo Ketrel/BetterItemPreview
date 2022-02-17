@@ -1,3 +1,10 @@
+## 2.9.0 - Beta
+
+Code cleanup  
+Fixed previewing from inspected targets
+Added LibRecipes-3.0 library
+Added ability to preview recipes create by ctrl+clicking a recipe
+
 ## 2.2.4
 
 Changed from table to calling C_Transmog.GetSlotForInventoryType for picking correct slot
