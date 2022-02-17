@@ -77,25 +77,20 @@ function BIP:OnInitialize()
 			itemLocation = nil
 		end
 
-        if(InspectFrame and InspectFrame.unit and not showReal and not itemLocation) then
+        if (InspectFrame and InspectFrame.unit) then
             local slotID = C_Transmog.GetSlotForInventoryType( C_Item.GetItemInventoryTypeByID( link ) + 1 )
-            inspect = C_TransmogCollection.GetInspectItemTransmogInfoList()[slotID]
-            itemLocation = ItemLocation:CreateFromEquipmentSlot(slotID);
+            _,inspect = GetItemInfo(C_Transmog.GetItemIDForSource(C_TransmogCollection.GetInspectItemTransmogInfoList()[slotID].appearanceID))
         end
-
---        if inspect and showReal then
---            inspect = nil
---            itemLocation = nil
---        end
-
+            
+        if inspect and showReal then
+            link = inspect
+            itemLocation = nil
+        elseif showReal then
+            itemLocation = nil
+        end
+            
         if IsModifiedClick("DRESSUP") and C_Item.IsDressableItemByID(link) then
-            if inspect and itemLocation and not showReal then
-                return BIP:DressUpItemLocationReal(itemLocation,inspect) or DressUpItemLink(link) or DressUpBattlePet(link) or DressUpMount(link)
-            elseif showReal and itemLocation then
-                return BIP:DressUpItemLocationReal(itemLocation) or DressUpItemLink(link) or DressUpBattlePet(link) or DressUpMount(link)
-            else
-                return DressUpItemLocation(itemLocation) or DressUpItemLink(link) or DressUpBattlePet(link) or DressUpMount(link)
-            end
+            return DressUpItemLocation(itemLocation) or DressUpItemLink(link) or DressUpBattlePet(link) or DressUpMount(link)
         else
             originalHandleModifiedItemClick(link,itemLocation)
         end
@@ -103,20 +98,3 @@ function BIP:OnInitialize()
 
 end
 
-function BIP:DressUpItemLocationReal(itemLocation, ...)
-    directAppearance = ...
-    if( itemLocation and itemLocation:IsValid() ) then
-        local itemTransmogInfo
-        if directAppearance then
-            itemTransmogInfo = directAppearance
-        else
-            itemTransmogInfo = C_Item.GetCurrentItemTransmogInfo(itemLocation);
-            itemTransmogInfo:Clear()
-        end
-        -- non-equippable items won't have an appearanceID
-        if itemTransmogInfo.appearanceID ~= Constants.Transmog.NoTransmogID then
-            return DressUpItemTransmogInfo(itemTransmogInfo);
-        end
-    end
-    return false;
-end
