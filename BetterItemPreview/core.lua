@@ -79,7 +79,10 @@ function BIP:OnInitialize()
 
         if (InspectFrame and InspectFrame.unit) then
             local slotID = C_Transmog.GetSlotForInventoryType( C_Item.GetItemInventoryTypeByID( link ) + 1 )
-            _,inspect = GetItemInfo(C_Transmog.GetItemIDForSource(C_TransmogCollection.GetInspectItemTransmogInfoList()[slotID].appearanceID))
+            local inspectInfo = C_TransmogCollection.GetInspectItemTransmogInfoList()[slotID]
+            if inspectInfo then
+                inspect = (select(6,C_TransmogCollection.GetAppearanceSourceInfo(inspectInfo.appearanceID)))
+            end
         end
             
         if inspect and showReal then
