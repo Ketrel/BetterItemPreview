@@ -1,4 +1,13 @@
-## 2.9.0 - Beta
+## 2.9.2
+
+Better handling of recipe links
+
+## 2.9.1
+
+Code block was accidentally removed which is needed to preview recipes from inventory
+
+
+## 2.9.0
 
 Code cleanup  
 Fixed previewing from inspected targets
