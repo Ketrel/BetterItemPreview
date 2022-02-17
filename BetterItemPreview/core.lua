@@ -61,6 +61,17 @@ function BIP:OnInitialize()
     LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Better Item Preview Options", "Options", "Better Item Preview")
     LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Better Item Preview Profiles", "Profiles", "Better Item Preview")
 
+    local originalDressUpLink = DressUpLink
+    DressUpLink = function(link)
+        --This just checks if it's a recipe, and if so, extracts the link for the item it creates and resends that to this function.
+        ----If the resulting item isn't previewable, this will still do whatever it normally would've done in that case.
+        if (select(12,GetItemInfo(link))) == 9 then
+            local linkID = link:match("item:([0-9]+)")
+            local newLink = select(2,GetItemInfo((select(2,LibStub("LibRecipes-3.0"):GetRecipeInfo(linkID)))))
+            return DressUpLink(newLink)
+        end
+        return link and (DressUpItemLink(link) or DressUpBattlePetLink(link) or DressUpMountLink(link));
+    end
 
     local originalHandleModifiedItemClick = HandleModifiedItemClick
     --HandleModifiedItemClick = function(link, itemLocation, ...)
