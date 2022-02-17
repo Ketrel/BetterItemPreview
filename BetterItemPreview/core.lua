@@ -76,6 +76,13 @@ function BIP:OnInitialize()
     local originalHandleModifiedItemClick = HandleModifiedItemClick
     --HandleModifiedItemClick = function(link, itemLocation, ...)
     HandleModifiedItemClick = function(link, itemLocation)
+
+        if (select(12,GetItemInfo(link))) == 9 then
+            local linkID = link:match("item:([0-9]+)")
+            local newLink = select(2,GetItemInfo((select(2,LibStub("LibRecipes-3.0"):GetRecipeInfo(linkID)))))
+            return HandleModifiedItemClick(newLink)
+        end
+
         local showReal = false
         local inspect = nil
 
