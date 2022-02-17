@@ -1,4 +1,4 @@
-## 2.9.0 - Beta
+## 2.9.0
 
 Code cleanup  
 Fixed previewing from inspected targets
