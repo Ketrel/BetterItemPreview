@@ -1,3 +1,8 @@
+## 2.9.1
+
+Code block was accidentally removed which is needed to preview recipes from inventory
+
+
 ## 2.9.0
 
 Code cleanup  
