@@ -77,7 +77,7 @@ function BIP:OnInitialize()
 			itemLocation = nil
 		end
 
-        if (InspectFrame and InspectFrame.unit) then
+        if (InspectFrame and InspectFrame.unit and itemLocation == nil) then
             local slotID = C_Transmog.GetSlotForInventoryType( C_Item.GetItemInventoryTypeByID( link ) + 1 )
             local inspectInfo = C_TransmogCollection.GetInspectItemTransmogInfoList()[slotID]
             if inspectInfo then
