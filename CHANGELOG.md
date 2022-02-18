@@ -1,3 +1,8 @@
+## 2.9.3 Beta
+
+Fixed missing check for nil value
+
+
 ## 2.9.2
 
 Better handling of recipe links
