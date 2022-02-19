@@ -65,7 +65,9 @@ function BIP:OnInitialize()
     DressUpLink = function(link)
         --This just checks if it's a recipe, and if so, extracts the link for the item it creates and resends that to this function.
         ----If the resulting item isn't previewable, this will still do whatever it normally would've done in that case.
-		link = BIP:RecipeRecurse(link)
+		if IsModifierClick("DRESSUP") then
+            link = BIP:RecipeRecurse(link)
+        end
 
         return link and (DressUpItemLink(link) or DressUpBattlePetLink(link) or DressUpMountLink(link));
     end
@@ -74,7 +76,9 @@ function BIP:OnInitialize()
     --HandleModifiedItemClick = function(link, itemLocation, ...)
     HandleModifiedItemClick = function(link, itemLocation)
 
-		link = BIP:RecipeRecurse(link)
+		if IsModifierClick("DRESSUP") then
+            link = BIP:RecipeRecurse(link)
+        end
 
         local showReal = false
         local inspect = nil
