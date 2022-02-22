@@ -1,5 +1,6 @@
-## 2.9.3 Beta
+## 3.0.0
 
+Bumped TOC for 9.2.0
 Fixed missing check for nil value
 
 
