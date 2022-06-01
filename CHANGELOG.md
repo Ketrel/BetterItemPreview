@@ -1,3 +1,6 @@
+## 3.0.1
+Bumped TOC for 9.2.5
+
 ## 3.0.0
 
 Bumped TOC for 9.2.0
