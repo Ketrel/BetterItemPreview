@@ -1,6 +1,6 @@
 # Lib: Recipes
 
-## [r20-release](https://github.com/warmexx/librecipes-3-0/tree/r20-release) (2021-11-07)
-[Full Changelog](https://github.com/warmexx/librecipes-3-0/commits/r20-release) [Previous Releases](https://github.com/warmexx/librecipes-3-0/releases)
+## [r25-release](https://github.com/warmexx/librecipes-3-0/tree/r25-release) (2022-12-03)
+[Full Changelog](https://github.com/warmexx/librecipes-3-0/commits/r25-release) [Previous Releases](https://github.com/warmexx/librecipes-3-0/releases)
 
-- Bumps TOCs  
+- Updates retail recipes  
