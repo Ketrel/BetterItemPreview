@@ -1,7 +1,7 @@
-## Interface: 100002
+## Interface: 100005
 ## Title: Better Item Preview
 ## Author: Trelmarq
-## Version: 3.1.0
+## Version: 3.2.0
 ## OptionalDeps: MogIt
 ## SavedVariables: BetterItemPreview
 
