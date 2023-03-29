@@ -19,6 +19,7 @@ function BIP:Load()
         self:Message("    BIP Savedvariables Not Found.\nDefaults Loaded")
     end
     self:UnregisterEvent("ADDON_LOADED")
+    BIP:Init()
 end
 
 function BIP:Message(msg,location)
@@ -75,11 +76,11 @@ function BIP:Init()
             link = BIP:RecipeRecurse(link)
         end
 
-        local showReal = false
+        local showReal = true
         local inspect = nil
 
-        if (IsShiftKeyDown() and not self.db.profile.reverse) or (not IsShiftKeyDown() and self.db.profile.reverse) then
-            showReal = true
+        if (IsShiftKeyDown() and not BetterItemPreview.Reverse) or (not IsShiftKeyDown() and BetterItemPreview.Reverse) then
+            showReal = false
         end
 
 		--I can't figure out what garbage MogIt is sending to this handler, but this appears to take care of that oddity
