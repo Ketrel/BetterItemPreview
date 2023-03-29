@@ -1,4 +1,3 @@
---BIP = LibStub("AceAddon-3.0"):NewAddon("Better Item Preview")
 BIP = CreateFrame("Frame","BetterItemPreview")
 
 function BIP:OnEvent(event, ...)
@@ -10,33 +9,6 @@ end
 
 BIP:SetScript("OnEvent",BIP.OnEvent)
 BIP:RegisterEvent("ADDON_LOADED")
-
---BIP_EVENTS = CreateFrame("Frame","BIPEVENTS")
---BIP_EVENTS:RegisterEvent("ADDON_LOADED")
-
---function BIP_EVENTS:OnEvent(event, ...)
---    arg1 = ...
---    if event == "ADDON_LOADED" and arg1 == "Blizzard_InspectUI" then
---        InspectPaperDollItemSlotButton_OnClick_Backup = InspectPaperDollItemSlotButton_OnClick
---        InspectPaperDollItemSlotButton_OnClick = function(self,button)
---            local itemLink = GetInventoryItemLink(InspectFrame.unit, self:GetID());
---            local itemLocation = ItemLocation:CreateFromEquipmentSlot(self:GetID());
---            local itemListItem= C_TransmogCollection.GetInspectItemTransmogInfoList()[self:GetID()]
---            if itemLink and IsModifiedClick("EXPANDITEM") then
---                local _, _, classID = UnitClass(InspectFrame.unit);
---                if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) then
---                    local azeritePowerIDs = C_PaperDollInfo.GetInspectAzeriteItemEmpoweredChoices(InspectFrame.unit, self:GetID());
---                    OpenAzeriteEmpoweredItemUIFromLink(itemLink, classID, azeritePowerIDs);
---                    return;
---                end
---            end
---            HandleModifiedItemClick(GetInventoryItemLink(InspectFrame.unit, self:GetID()),itemLocation,itemListItem);
---        end
---        self:UnregisterEvent("ADDON_LOADED")
---    end
---end
-
---BIP_EVENTS:SetScript("OnEvent",BIP_EVENTS.OnEvent)
 
 function BIP:Load()
     self:Message("Better Item Preview (BIP) Loaded")
@@ -82,39 +54,7 @@ function BIP:SwapClicks(swap, ...)
     end
 end
 
-function BIP:OnInitialize()
-    local defaults = {
-        profile = {
-            reverse = false,
-        },
-    }
-
-    self.db = LibStub("AceDB-3.0"):New("BetterItemPreview", defaults, true)
-
-    local options = {
-        type = "group",
-        args = {
-            reverse = {
-                name = "Reverse Functionality",
-                desc = "Reverses the Ctrl+Click and Ctrl+Shift+Click Behavior",
-                type = "toggle",
-                descStyle = "inline",
-                width = "full",
-                get = function(info) return self.db.profile.reverse or false; end,
-                set = function(info,val) self.db.profile.reverse = val; end,
-            },
-        },
-    }
-
-    local profileOptions = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
-
-    LibStub("AceConfig-3.0"):RegisterOptionsTable("Better Item Preview", {type="group",args={}})
-    LibStub("AceConfig-3.0"):RegisterOptionsTable("Better Item Preview Options", options)
-    LibStub("AceConfig-3.0"):RegisterOptionsTable("Better Item Preview Profiles", profileOptions)
-
-    LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Better Item Preview", "Better Item Preview", nil)
-    LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Better Item Preview Options", "Options", "Better Item Preview")
-    LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Better Item Preview Profiles", "Profiles", "Better Item Preview")
+function BIP:Init()
 
     local originalDressUpLink = DressUpLink
     DressUpLink = function(link)
@@ -172,7 +112,7 @@ function BIP:OnInitialize()
 end
 
 function BIP:RecipeRecurse(link)
-    if link and (select(12,GetItemInfo(link))) == 9 then
+    if link and (select(12,GetItemInfo(link))) == Enum.ItemRecipeSubclass then
         local linkID = link:match("item:([0-9]+):")
         local newLink = select(2,GetItemInfo((select(2,LibStub("LibRecipes-3.0"):GetRecipeInfo(linkID)))))
         return newLink
