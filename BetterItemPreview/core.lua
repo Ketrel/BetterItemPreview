@@ -1,4 +1,15 @@
-BIP = LibStub("AceAddon-3.0"):NewAddon("Better Item Preview")
+--BIP = LibStub("AceAddon-3.0"):NewAddon("Better Item Preview")
+BIP = CreateFrame("Frame","BetterItemPreview")
+
+function BIP:OnEvent(event, ...)
+    arg1 = ...
+    if event == "ADDON_LOADED" and arg1 == "BetterItemPreview" then
+        BIP:Load()
+    end
+end
+
+BIP:SetScript("OnEvent",BIP.OnEvent)
+BIP:RegisterEvent("ADDON_LOADED")
 
 --BIP_EVENTS = CreateFrame("Frame","BIPEVENTS")
 --BIP_EVENTS:RegisterEvent("ADDON_LOADED")
@@ -26,6 +37,50 @@ BIP = LibStub("AceAddon-3.0"):NewAddon("Better Item Preview")
 --end
 
 --BIP_EVENTS:SetScript("OnEvent",BIP_EVENTS.OnEvent)
+
+function BIP:Load()
+    self:Message("Better Item Preview (BIP) Loaded")
+    if BetterItemPreview == nil or BetterItemPreview.Reverse == nil then
+        BetterItemPreview = {
+            Reverse = false,
+        }
+        self:Message("    BIP Savedvariables Not Found.\nDefaults Loaded")
+    end
+    self:UnregisterEvent("ADDON_LOADED")
+end
+
+function BIP:Message(msg,location)
+    if msg == nil then
+        return
+    elseif location == "ERROR" then
+        UIErrorsFrame:AddMessage(msg, 1, 0.1, 0.1)    
+    elseif location == "BOTH" then
+        UIErrorsFrame:AddMessage(msg, 1, 0.1, 0.1)    
+        DEFAULT_CHAT_FRAME:AddMessage(msg, 1, 1, 1)
+    else
+        DEFAULT_CHAT_FRAME:AddMessage(msg, 1, 1, 1)
+    end
+end
+
+function BIP:CurrentSettings()
+    if BetterItemPreview.Reverse then
+        print("[BIP] CTRL + CLICK Previews Transmogged Appearance")
+        print("[BIP] CTRL + SHIFT + CLICK Previews Actual Appearance")
+    else
+        print("[BIP] CTRL + CLICK Previews Actual Appearance")
+        print("[BIP] CTRL + SHIFT + CLICK Previews Transmogged Appearance")
+    end
+end
+
+function BIP:SwapClicks(swap, ...)
+    if swap == "swap" then
+        BetterItemPreview.Reverse = not BetterItemPreview.Reverse
+        BIP:CurrentSettings() 
+    else
+        BIP:CurrentSettings()
+        print("[BIP] To swap these, type: /bip swap")
+    end
+end
 
 function BIP:OnInitialize()
     local defaults = {
@@ -125,3 +180,6 @@ function BIP:RecipeRecurse(link)
         return link
     end
 end
+
+SLASH_BIP1 = "/bip"
+SlashCmdList["BIP"] = function(msg,editBox) BIP:SwapClicks(msg); end
