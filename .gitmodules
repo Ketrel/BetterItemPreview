@@ -1,0 +1,3 @@
+[submodule "BetterItemPreview/Libs/LibRecipes-3.0"]
+	path = BetterItemPreview/Libs/LibRecipes-3.0
+	url = https://github.com/warmexx/librecipes-3-0
