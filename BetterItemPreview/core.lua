@@ -16,8 +16,9 @@ function BIP:Load()
         BetterItemPreview = {
             Reverse = false,
         }
-        self:Message("    BIP Savedvariables Not Found.\nDefaults Loaded")
+        self:Message("    BIP Savedvariables Not Found.\n    Defaults Loaded")
     end
+    self:Message("    Use /bip to view or change settings")
     self:UnregisterEvent("ADDON_LOADED")
     BIP:Init()
 end
@@ -37,11 +38,11 @@ end
 
 function BIP:CurrentSettings()
     if BetterItemPreview.Reverse then
-        print("[BIP] CTRL + CLICK Previews Transmogged Appearance")
-        print("[BIP] CTRL + SHIFT + CLICK Previews Actual Appearance")
+        self:Message("[BIP] CTRL + CLICK Previews Transmogged Appearance")
+        self:Message("[BIP] CTRL + SHIFT + CLICK Previews Actual Appearance")
     else
-        print("[BIP] CTRL + CLICK Previews Actual Appearance")
-        print("[BIP] CTRL + SHIFT + CLICK Previews Transmogged Appearance")
+        self:Message("[BIP] CTRL + CLICK Previews Actual Appearance")
+        self:Message("[BIP] CTRL + SHIFT + CLICK Previews Transmogged Appearance")
     end
 end
 
@@ -51,7 +52,7 @@ function BIP:SwapClicks(swap, ...)
         BIP:CurrentSettings() 
     else
         BIP:CurrentSettings()
-        print("[BIP] To swap these, type: /bip swap")
+        self:Message("[BIP] To swap these, type: /bip swap")
     end
 end
 
