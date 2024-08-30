@@ -1,3 +1,26 @@
+## 5.0.2
+
+Updated ToC to 10.2.6
+Release includes libRecipes v34 release
+
+
+## 4.2.0
+Changed LibRecipes-3.0 to a git submodule to its project page ( https://github.com/warmexx/librecipes-3-0/ )
+Release includes r31
+
+Updated ToC to 10.2.6
+
+## 4.0.0
+Ace Libraries (other than LibStub) removed
+    (Ace was overkill for a single setting toggle)
+
+LibRecipes-3.0 updated to r28 for 10.0.7
+
+Command(s) `/bip` and `/bip swap` added to replace Ace settings dialog  
+    `/bip` tells you the current settings
+    `/bip swap` swaps the behavior and then tells you the new settings
+
+
 ## 3.3.0
 Bumped TOC for 10.0.7
 
