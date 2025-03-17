@@ -12,11 +12,20 @@ BIP:RegisterEvent("ADDON_LOADED")
 
 function BIP:Load()
     self:Message("Better Item Preview (BIP) Loaded")
-    if BetterItemPreview == nil or BetterItemPreview.Reverse == nil then
+    if BetterItemPreview == nil then
         BetterItemPreview = {
             Reverse = false,
+            Others = false,
         }
         self:Message("    BIP Savedvariables Not Found.\n    Defaults Loaded")
+    end
+    if BetterItemPreview.Reverse == nil then
+        BetterItemPreview.Reverse = false
+        self:Message("    BIP missing value for Reverse.\n    Default Loaded")
+    end
+    if BetterItemPreview.Other == nil then
+        BetterItemPreview.Other = false
+        self:Message("    BIP missing value for Other.\n    Default Loaded")
     end
     self:Message("    Use /bip to view or change settings")
     self:UnregisterEvent("ADDON_LOADED")
@@ -44,20 +53,14 @@ function BIP:CurrentSettings()
         self:Message("[BIP] CTRL + CLICK Previews Actual Appearance")
         self:Message("[BIP] CTRL + SHIFT + CLICK Previews Transmogged Appearance")
     end
-    if BetterItemPreview.Others then
-        self:Message("[BIP] Enabled for inspecting others")
-        self:Message("[BIP] This will likely cause taint")
-    else
-        self:Message("[BIP] Disabled for inspecting others")
-    end
 end
 
 function BIP:SlashBipHandle(command, ...)
     if command == "swap" then
         BetterItemPreview.Reverse = not BetterItemPreview.Reverse
         BIP:CurrentSettings() 
-    elseif command == "others" then
-        BetterItemPreview.Others = not BetterItemPreview.Others
+--    elseif command == "others" then
+--        BetterItemPreview.Others = not BetterItemPreview.Others
     else
         BIP:CurrentSettings()
         self:Message("[BIP] To swap these, type: /bip swap")
@@ -66,8 +69,9 @@ end
 
 function BIP:Init()
 
-    local originalDressUpLink = DressUpLink
-    DressUpLink = function(link)
+    BIPRunState=0
+
+    newDUL = function(link)
         --This just checks if it's a recipe, and if so, extracts the link for the item it creates and resends that to this function.
         ----If the resulting item isn't previewable, this will still do whatever it normally would've done in that case.
 		if IsModifiedClick("DRESSUP") then
@@ -76,14 +80,13 @@ function BIP:Init()
 
         return link and (DressUpItemLink(link) or DressUpBattlePetLink(link) or DressUpMountLink(link));
     end
+    hooksecurefunc("DressUpLink", newDUL) 
 
-    local originalHandleModifiedItemClick = HandleModifiedItemClick
-    --HandleModifiedItemClick = function(link, itemLocation, ...)
-    HandleModifiedItemClick = function(link, itemLocation)
+    newHMIC = function(link, itemLocation)
 
-		if IsModifiedClick("DRESSUP") then
-            link = BIP:RecipeRecurse(link)
-        end
+		--if IsModifiedClick("DRESSUP") then
+        --    link = BIP:RecipeRecurse(link)
+        --end
 
         local showReal = true
         local inspect = nil
@@ -92,7 +95,7 @@ function BIP:Init()
             showReal = false
         end
 
-		--I can't figure out what garbage MogIt is sending to this handler, but this appears to take care of that oddity
+		--I can't figure out what MogIt is sending to this handler, but this appears to take care of that oddity
 		if tonumber(itemLocation) ~= nil then
 			itemLocation = nil
 		end
@@ -114,17 +117,24 @@ function BIP:Init()
             
         if IsModifiedClick("DRESSUP") and C_Item.IsDressableItemByID(link) then
             return DressUpItemLocation(itemLocation) or DressUpItemLink(link) or DressUpBattlePet(link) or DressUpMount(link)
-        else
-            originalHandleModifiedItemClick(link,itemLocation)
+        --else
+            --HandleModifiedItemClick(link,itemLocation)
         end
     end
+    hooksecurefunc("HandleModifiedItemClick", newHMIC)
 
 end
 
 function BIP:RecipeRecurse(link)
-    if link and (select(12,GetItemInfo(link))) == Enum.ItemRecipeSubclass then
+    if link and (select(12,C_Item.GetItemInfo(link))) == 9 then
         local linkID = link:match("item:([0-9]+):")
-        local newLink = select(2,GetItemInfo((select(2,LibStub("LibRecipes-3.0"):GetRecipeInfo(linkID)))))
+        local interimLink = (select(2,LibStub("LibRecipes-3.0"):GetRecipeInfo(linkID)))
+        if interimLink == nil then
+            self:Message("Recipe not yet supported by loaded LibRecipes-3.0")
+            return link
+        end
+        local newLink = select(2,C_Item.GetItemInfo((interimLink)))
+        --local newLink = select(2,C_Item.GetItemInfo((select(2,LibStub("LibRecipes-3.0"):GetRecipeInfo(linkID)))))
         return newLink
     else
         return link
