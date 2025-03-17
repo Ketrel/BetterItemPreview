@@ -44,12 +44,20 @@ function BIP:CurrentSettings()
         self:Message("[BIP] CTRL + CLICK Previews Actual Appearance")
         self:Message("[BIP] CTRL + SHIFT + CLICK Previews Transmogged Appearance")
     end
+    if BetterItemPreview.Others then
+        self:Message("[BIP] Enabled for inspecting others")
+        self:Message("[BIP] This will likely cause taint")
+    else
+        self:Message("[BIP] Disabled for inspecting others")
+    end
 end
 
-function BIP:SwapClicks(swap, ...)
-    if swap == "swap" then
+function BIP:SlashBipHandle(command, ...)
+    if command == "swap" then
         BetterItemPreview.Reverse = not BetterItemPreview.Reverse
         BIP:CurrentSettings() 
+    elseif command == "others" then
+        BetterItemPreview.Others = not BetterItemPreview.Others
     else
         BIP:CurrentSettings()
         self:Message("[BIP] To swap these, type: /bip swap")
@@ -124,4 +132,4 @@ function BIP:RecipeRecurse(link)
 end
 
 SLASH_BIP1 = "/bip"
-SlashCmdList["BIP"] = function(msg,editBox) BIP:SwapClicks(msg); end
+SlashCmdList["BIP"] = function(msg,editBox) BIP:SlashBipHandle(msg); end
