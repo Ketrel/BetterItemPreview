@@ -130,7 +130,7 @@ function BIP:RecipeRecurse(link)
         local linkID = link:match("item:([0-9]+):")
         local interimLink = (select(2,LibStub("LibRecipes-3.0"):GetRecipeInfo(linkID)))
         if interimLink == nil then
-            self:Message("Recipe not yet supported by loaded LibRecipes-3.0")
+            self:Message("Recipe not yet supported by loaded LibRecipes-3.0","ERROR")
             return link
         end
         local newLink = select(2,C_Item.GetItemInfo((interimLink)))
