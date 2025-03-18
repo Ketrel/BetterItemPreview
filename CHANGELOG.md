@@ -1,3 +1,8 @@
+## 6.0.0
+
+Update ToC to 11.1.0
+Changes made to code to avoid taint
+
 ## 5.0.2
 
 Updated ToC to 11.0.2
